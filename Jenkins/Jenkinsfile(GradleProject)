@@ -22,6 +22,9 @@ node {
   stage 'Stage Unit Test'
   sh "./gradlew test"
 
+  // android unsigned apk generation
+  archiveArtifacts 'app/build/outputs/apk/*'
+
   if (env.BRANCH_NAME == 'API_DOCS'){
   	stage 'Deploy'
   	sh "/home/jenkins/deploy/cosmo_api_docs_deploy.sh"
