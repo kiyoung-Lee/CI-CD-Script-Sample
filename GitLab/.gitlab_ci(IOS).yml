@@ -1,0 +1,17 @@
+before_script:
+  - apt-get update && apt-get install -y locales
+  - echo "en_US.UTF-8 UTF-8" > sudo /etc/locale.gen
+  - export LC_ALL=en_US.UTF-8
+
+stages:
+  - build
+
+build_code:
+  stage: build
+  script:
+    - xcodebuild clean -workspace Matching.xcworkspace -scheme Matching |
+    - pod deintegrate
+    - pod install
+    - xcodebuild test -workspace Matching.xcworkspace -scheme Matching -destination 'platform=iOS Simulator,name=iPhone 6,OS=10.3.1' | xcpretty -c && exit ${PIPESTATUS[0]}
+  tags:
+    - ios
